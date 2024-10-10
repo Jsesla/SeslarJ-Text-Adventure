@@ -9,6 +9,38 @@ namespace Text_Adventure
         static float Temperature;
 
         public static List<string> inv = new List<string>();
+        public static string equipment1, equipment2;
+
+        public static void Main()
+        {
+            Console.WriteLine("PLEASE WIDEN WINDOW SIGNIFICANTLY, some dialogue is too large and looks weird.");
+            Console.WriteLine("You can access your inventory at ANY time when prompted with text to equip, view, or unequip any items you have picked up on your pilgrimage by typing Inventory, Inv, inventory, or inv.");
+            StoryStart();
+        }
+
+        public static void StoryStart()
+        {
+            Console.WriteLine("Welcome, pilgrim.");
+            Console.WriteLine("You are on a journey through the barren frosted lands of an artificial ice age that began/was created during the industrial revolution of an alternative history.");
+            Console.WriteLine("Your goal is to make it to a 'sanctuary'.");
+            Console.WriteLine("You wake up, it's cold and your shelter's on its last legs, you need to move.");
+            Console.WriteLine("You may go towards the city, or the hills.");
+            Console.WriteLine("> (Hills/City)");
+            string storyChoice = Console.ReadLine();
+            if (storyChoice == "Hills")
+            {
+                Story();
+            }
+            else if (storyChoice == "inv" || storyChoice == "Inv" || storyChoice == "inventory" || storyChoice == "Inventory")
+            {
+                Inventory();
+                StoryStart();
+            }
+            else
+            {
+                StoryStart();
+            }
+        }
 
         public static void Story()
         {
@@ -22,9 +54,10 @@ namespace Text_Adventure
             if (linenGarb == "Y")
             {
 
-                Console.WriteLine("You wrap the garb around yourself, hopefully this will keep you warm.");
-                //Console.WriteLine("You take the garb, fold it, and put it in your pack. (to access this item type 'Inventory')");
+                //Console.WriteLine("You wrap the garb around yourself, hopefully this will keep you warm.");
+                Console.WriteLine("You take the garb, fold it, and put it in your pack. (to access this item type 'Inventory')");
                 inv.Add("Linen Garb");
+
                 TravelHillsA();
             }
             else if (linenGarb == "N")
@@ -43,25 +76,7 @@ namespace Text_Adventure
             }
 
         }
-            static void Main(string[] args)
-        {
-            Console.WriteLine("PLEASE WIDEN THIS WINDOW SIGNIFICANTLY, some dialogue is too large and looks weird.");
-            Console.WriteLine("You can access your inventory at ANY time when prompted with text to equip, view, or unequip any items you have picked up on your pilgrimage by typing Inventory, Inv, inventory, or inv.");
-            Thread.Sleep(10000);
-            Console.WriteLine("Welcome, pilgrim.");
-            Console.WriteLine("You are on a journey through the barren frosted lands of an artificial ice age that began/was created during the industrial revolution of an alternative history.");
-            Console.WriteLine("Your goal is to make it to a 'sanctuary'.");
-            Console.WriteLine("You wake up, it's cold and your shelter's on its last legs, you need to move.");
-            Console.WriteLine("You may go towards the city, or the hills.");
-            Console.WriteLine("> (Hills/City)");
-            string storyChoice = Console.ReadLine();
-            if (storyChoice == "Hills")
-            {
-                Story();
-               
-                
-            }
-        }
+       
 
         static void TravelHillsA()
         {
@@ -79,15 +94,24 @@ namespace Text_Adventure
                 Console.WriteLine("You take the left path.");
                 ForkChoiceATravel();
             }
-            if(HillsPathChoice == "Center")
+            else if(HillsPathChoice == "Center")
             {
                 Console.WriteLine("You take the center path.");
                 ForkChoiceBTravel();
             }
-            if(HillsPathChoice == "Right")
+            else if(HillsPathChoice == "Right")
             {
                 Console.WriteLine("You take the right path.");
                 ForkChoiceCTravel();
+            }
+            else if (HillsPathChoice == "inv" || HillsPathChoice == "Inv" || HillsPathChoice == "inventory" || HillsPathChoice == "Inventory")
+            {
+                Inventory();
+                ForkChoiceA();
+            }
+            else
+            {
+                ForkChoiceA();
             }
         }
         static void ForkChoiceATravel()
@@ -121,11 +145,40 @@ namespace Text_Adventure
         {
             if (inv.Count == 0)
                 return;
+            
+
+
             foreach(string item in inv)
             {
                 Console.WriteLine(item);
             }
             
+
+            string ItemName =  Console.ReadLine();
+            
+            if (inv.Contains("Linen Garb") && ItemName == "Linen Garb")
+            {
+                //inv.Remove("Linen Garb");
+                LGMenu();
+            }
+            else if (inv.Contains("Gold Pieces") && ItemName == "Gold Pieces")
+            {
+                GPMenu();
+            }
+        }
+        static void LGMenu()
+        {
+            Console.WriteLine("-5 Temperature, pilfered from sacred architecture.");
+            Console.WriteLine("Equip/Unequip");
+            string ItemCommand = Console.ReadLine();
+            if (ItemCommand == "Equip")
+            {
+
+            }
+        }
+        static void GPMenu()
+        {
+            Inventory();
         }
     }
 }
