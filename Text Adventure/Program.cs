@@ -136,8 +136,11 @@ namespace Text_Adventure
         }
         static void ForkChoiceCTravel()
         {
-            Console.WriteLine();
+            Console.WriteLine("The path leads long to nowhere, you freeze to death desperately searching for warmth");
+            Death();
         }
+
+
 
 
 
@@ -173,12 +176,24 @@ namespace Text_Adventure
             string ItemCommand = Console.ReadLine();
             if (ItemCommand == "Equip")
             {
-
+                Console.WriteLine("You wrap the garb around yourself.");
+                Inventory();
             }
         }
         static void GPMenu()
         {
+            Console.WriteLine("Unavailable");
             Inventory();
+        }
+
+        static void Death()
+        {
+            Console.WriteLine("You Froze. (Type restart to restart)");
+            string DCommand = Console.ReadLine();
+            if(DCommand == "Restart")
+            {
+                Main();
+            }
         }
     }
 }
