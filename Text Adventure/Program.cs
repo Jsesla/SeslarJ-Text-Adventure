@@ -10,6 +10,7 @@ namespace Text_Adventure
 
         public static List<string> inv = new List<string>();
         public static string equipment1, equipment2;
+        public string name;
 
         public static void Main()
         {
@@ -122,8 +123,10 @@ namespace Text_Adventure
             string GoldPieces = Console.ReadLine();
             if (GoldPieces == "Y")
             {
-                Console.WriteLine("You take the gold pieces and slip them into your pockets.");
+                Console.WriteLine("You take a few gold pieces and slip them into your pockets.");
                 inv.Add("Gold Pieces");
+
+                
             }
             if (GoldPieces == "N")
             {
@@ -136,11 +139,20 @@ namespace Text_Adventure
         }
         static void ForkChoiceCTravel()
         {
-            Console.WriteLine("The path leads long to nowhere, you freeze to death desperately searching for warmth");
+            Console.WriteLine("The path goes a long ways to nowhere, you freeze to death desperately searching for warmth");
             Death();
         }
 
+        static void TakeGoldPiecesY()
+        {
+            Console.WriteLine("You continue your journey.");
+            Console.WriteLine("Eventually, you run into another shrine, this one has no glow.");
+            Console.WriteLine("It's hands are empty, put the gold pices you took in its hands?");
+            Console.WriteLine("> (Y/N)");
+            string GiveGP = Console.ReadLine();
+        }
 
+    
 
 
 
