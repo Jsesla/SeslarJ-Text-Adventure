@@ -10,7 +10,8 @@ namespace Text_Adventure
 
         public static List<string> inv = new List<string>();
         public static string equipment1, equipment2;
-        public string name;
+        public static bool LG;
+        
 
         public static void Main()
         {
@@ -25,10 +26,10 @@ namespace Text_Adventure
             Console.WriteLine("You are on a journey through the barren frosted lands of an artificial ice age that began/was created during the industrial revolution of an alternative history.");
             Console.WriteLine("Your goal is to make it to a 'sanctuary'.");
             Console.WriteLine("You wake up, it's cold and your shelter's on its last legs, you need to move.");
-            Console.WriteLine("You may go towards the city, or the hills.");
-            Console.WriteLine("> (Hills/City)");
+            Console.WriteLine("You start your journey to the hills.");
+            Console.WriteLine("> (Begin)");
             string storyChoice = Console.ReadLine();
-            if (storyChoice == "Hills")
+            if (storyChoice == "Begin")
             {
                 Story();
             }
@@ -45,9 +46,9 @@ namespace Text_Adventure
 
         public static void Story()
         {
-            Console.WriteLine("You walk towards the hills, it is a bit farther than the city.");
+            Console.WriteLine("You walk towards the hills.");
             Console.WriteLine("You encounter a statue of a meditating monk with a large pipe leading from the ground into its chest.");
-            Console.WriteLine("From some openings throughout its body you see a warm oarnge glow and draped over its body is a red and oarnge linen garb.");
+            Console.WriteLine("From some openings throughout its body you see a warm orange glow and draped over its body is a red and orange linen garb.");
             Console.WriteLine("The statue emits warmth so you rest and warm up.");
             Console.WriteLine("Before you go, would you like to take the garb?");
             Console.WriteLine("> (Y/N)");
@@ -84,6 +85,8 @@ namespace Text_Adventure
             Console.WriteLine("Now warm you continue on your travels.");
             ForkChoiceA();
         }
+
+
         static void ForkChoiceA()
         {
             Console.WriteLine("You reach a fork in the road, you must make a choice.");
@@ -115,6 +118,8 @@ namespace Text_Adventure
                 ForkChoiceA();
             }
         }
+
+
         static void ForkChoiceATravel()
         {
             Console.WriteLine("You have traveled for a few hours and haven't seen anything interesting or any sign of any 'sanctuary' until now, you find another meditating monk statue, radiating heat now with a few gold pieces in its hands.");
@@ -125,34 +130,94 @@ namespace Text_Adventure
             {
                 Console.WriteLine("You take a few gold pieces and slip them into your pockets.");
                 inv.Add("Gold Pieces");
-
+                TakeGoldPiecesY();
                 
             }
-            if (GoldPieces == "N")
+            else if (GoldPieces == "N")
             {
-
+                Console.WriteLine("You continue your journey.");
+                Console.WriteLine("Eventually, you run into another shrine, this one has no glow");
+                Console.WriteLine("It's hands are empty and for some reason you are physically unable to go past it.");
+                Death();
+            }
+            else if (GoldPieces == "inv" || GoldPieces == "Inv" || GoldPieces == "inventory" || GoldPieces == "Inventory")
+            {
+                Inventory();
+                ForkChoiceATravel();
+            }
+            else
+            {
+                ForkChoiceATravel();
             }
         }
+
+
         static void ForkChoiceBTravel()
         {
-            Console.WriteLine();
+            if (LG == true)
+            {
+                FinalFork();
+            }
+            else
+            {
+                Death();
+            }
         }
+
+
         static void ForkChoiceCTravel()
         {
             Console.WriteLine("The path goes a long ways to nowhere, you freeze to death desperately searching for warmth");
             Death();
         }
 
+
         static void TakeGoldPiecesY()
         {
             Console.WriteLine("You continue your journey.");
             Console.WriteLine("Eventually, you run into another shrine, this one has no glow.");
-            Console.WriteLine("It's hands are empty, put the gold pices you took in its hands?");
+            Console.WriteLine("It's hands are empty, put the gold pieces you took in its hands?");
             Console.WriteLine("> (Y/N)");
             string GiveGP = Console.ReadLine();
+            if (GiveGP == "Y")
+            {
+                Console.WriteLine("You place the gold in its hands and continue, blessed");
+                inv.Remove("Gold Pieces");
+                SanctA();
+            }
         }
 
-    
+
+
+        static void FinalFork()
+        {
+            Console.WriteLine("You can sense your journey is nearing its end.");
+            Console.WriteLine("You reach another fork in your path, you may go left or right.");
+            Console.WriteLine("> (L/R)");
+            string finalPathChoice = Console.ReadLine();
+            if (finalPathChoice == "L")
+            {
+                Death();
+            }
+            else if (finalPathChoice == "R")
+            {
+                SanctB();
+            }
+        }
+
+
+        static void SanctA()
+        {
+            Console.WriteLine("You feel the air around you begin to warm up as you move and you see a feint oarnge glow in the distance.");
+            Console.WriteLine("You drop your bags and begin to run toward it, you reach a temple with a lit hearth, this is your sanctuary.");
+        }
+
+
+        static void SanctB()
+        {
+            Console.WriteLine("You are so cold you think you will die, you close your eyes and just keep moving until you eventually feel the warmth of a lit hearth.");
+            Console.WriteLine("This is your sanctuary.");
+        }
 
 
 
@@ -181,9 +246,10 @@ namespace Text_Adventure
                 GPMenu();
             }
         }
+
         static void LGMenu()
         {
-            Console.WriteLine("-5 Temperature, pilfered from sacred architecture.");
+            Console.WriteLine("+5 Temperature, pilfered from sacred architecture.");
             Console.WriteLine("Equip/Unequip");
             string ItemCommand = Console.ReadLine();
             if (ItemCommand == "Equip")
@@ -192,6 +258,7 @@ namespace Text_Adventure
                 Inventory();
             }
         }
+
         static void GPMenu()
         {
             Console.WriteLine("Unavailable");
