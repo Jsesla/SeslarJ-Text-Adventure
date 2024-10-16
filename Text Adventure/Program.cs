@@ -1,27 +1,105 @@
 ﻿using System.Runtime.Intrinsics.X86;
 using System;
 using System.ComponentModel;
+using System.Runtime.InteropServices;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Xml.Linq;
 
 namespace Text_Adventure
 {
+    public struct Part
+    {
+        public int id;
+
+        public string name;
+
+        public Action function;
+    }
+
     internal class Program
     {
         static float Temperature;
+        public static Part current = default;
 
         public static List<string> inv = new List<string>();
         public static string equipment1, equipment2;
         public static bool LG;
-        
+
+        public static Part part1 = new Part()
+        {
+            id = 1,
+            name = "Main",
+            function = Main
+        };
+
+        public static Part part2 = new Part()
+        {
+            id = 2,
+            name = "StoryStart",
+            function = StoryStart
+        };
+
+        public static Part part3 = new Part()
+        {
+            id = 3,
+            name = "Story",
+            function = Story
+        };
+
+        public static Part part4 = new Part()
+        {
+            id = 4,
+            name = "ForkA",
+            function = ForkChoiceA
+        };
+
+        public static Part part5 = new Part()
+        {
+            id = 5,
+            name = "ForkAT",
+            function = ForkChoiceATravel
+        };
+
+        public static Part part6 = new Part()
+        {
+            id = 6,
+            name = "ForkBT",
+            function = ForkChoiceBTravel
+        };
+
+        public static Part part7 = new Part()
+        {
+            id = 7,
+            name = "ForkCT",
+            function = ForkChoiceCTravel
+        };
+
+        public static Part part8 = new Part()
+        {
+            id = 8,
+            name = "TGP",
+            function = TakeGoldPiecesY
+        };
+
+        public static Part part9 = new Part()
+        {
+            id = 9,
+            name = "FF",
+            function = FinalFork
+        };
+
+        public static Part[] allParts = [part1, part2, part3, part4, part5, part6, part7, part8, part9];
 
         public static void Main()
         {
-            Console.WriteLine("PLEASE WIDEN WINDOW SIGNIFICANTLY, some dialogue is too large and looks weird.");
+            Console.WriteLine("PLEASE WIDEN WINDOW SIGNIFICANTLY, some dialogue is too large and looks weird. Inventory is not currently working... (Damn you Derek!)");
             Console.WriteLine("You can access your inventory at ANY time when prompted with text to equip, view, or unequip any items you have picked up on your pilgrimage by typing Inventory, Inv, inventory, or inv.");
             StoryStart();
         }
 
         public static void StoryStart()
         {
+            current = part2;
             Console.WriteLine("Welcome, pilgrim.");
             Console.WriteLine("You are on a journey through the barren frosted lands of an artificial ice age that began/was created during the industrial revolution of an alternative history.");
             Console.WriteLine("Your goal is to make it to a 'sanctuary'.");
@@ -46,6 +124,7 @@ namespace Text_Adventure
 
         public static void Story()
         {
+            current = part3;
             Console.WriteLine("You walk towards the hills.");
             Console.WriteLine("You encounter a statue of a meditating monk with a large pipe leading from the ground into its chest.");
             Console.WriteLine("From some openings throughout its body you see a warm orange glow and draped over its body is a red and orange linen garb.");
@@ -89,6 +168,7 @@ namespace Text_Adventure
 
         static void ForkChoiceA()
         {
+            current = part4;
             Console.WriteLine("You reach a fork in the road, you must make a choice.");
             Console.WriteLine("Which path do you choose, Pilgrim?");
             Console.WriteLine("> (Left / Center / Right)");
@@ -122,6 +202,7 @@ namespace Text_Adventure
 
         static void ForkChoiceATravel()
         {
+            current = part5;
             Console.WriteLine("You have traveled for a few hours and haven't seen anything interesting or any sign of any 'sanctuary' until now, you find another meditating monk statue, radiating heat now with a few gold pieces in its hands.");
             Console.WriteLine("Would you like to take the Gold Pieces?");
             Console.WriteLine("> (Y/N)");
@@ -154,6 +235,7 @@ namespace Text_Adventure
 
         static void ForkChoiceBTravel()
         {
+            current = part6;
             if (LG == true)
             {
                 FinalFork();
@@ -167,6 +249,7 @@ namespace Text_Adventure
 
         static void ForkChoiceCTravel()
         {
+            current = part7;
             Console.WriteLine("The path goes a long ways to nowhere, you freeze to death desperately searching for warmth");
             Death();
         }
@@ -174,6 +257,7 @@ namespace Text_Adventure
 
         static void TakeGoldPiecesY()
         {
+            current = part8;
             Console.WriteLine("You continue your journey.");
             Console.WriteLine("Eventually, you run into another shrine, this one has no glow.");
             Console.WriteLine("It's hands are empty, put the gold pieces you took in its hands?");
@@ -191,6 +275,7 @@ namespace Text_Adventure
 
         static void FinalFork()
         {
+            current = part9;
             Console.WriteLine("You can sense your journey is nearing its end.");
             Console.WriteLine("You reach another fork in your path, you may go left or right.");
             Console.WriteLine("> (L/R)");
@@ -210,6 +295,11 @@ namespace Text_Adventure
         {
             Console.WriteLine("You feel the air around you begin to warm up as you move and you see a feint oarnge glow in the distance.");
             Console.WriteLine("You drop your bags and begin to run toward it, you reach a temple with a lit hearth, this is your sanctuary.");
+            string W1Command = Console.ReadLine();
+            if (W1Command == "Restart")
+            {
+                Main();
+            }
         }
 
 
@@ -217,6 +307,11 @@ namespace Text_Adventure
         {
             Console.WriteLine("You are so cold you think you will die, you close your eyes and just keep moving until you eventually feel the warmth of a lit hearth.");
             Console.WriteLine("This is your sanctuary.");
+            string WCommand = Console.ReadLine();
+            if (WCommand == "Restart")
+            {
+                Main();
+            }
         }
 
 
@@ -225,8 +320,6 @@ namespace Text_Adventure
         {
             if (inv.Count == 0)
                 return;
-            
-
 
             foreach(string item in inv)
             {
@@ -245,6 +338,11 @@ namespace Text_Adventure
             {
                 GPMenu();
             }
+
+            string input = Console.ReadLine();
+            int index = Convert.ToInt32(input);
+            allParts[index - 1].function();
+
         }
 
         static void LGMenu()
