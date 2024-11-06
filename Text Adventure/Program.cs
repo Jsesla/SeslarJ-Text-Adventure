@@ -15,6 +15,10 @@ namespace Text_Adventure
 
         public Action function;
     }
+    public enum Risk
+    {
+        Low, Medium, High
+    }
 
     internal class Program
     {
@@ -131,6 +135,8 @@ namespace Text_Adventure
             Console.WriteLine("The statue emits warmth so you rest and warm up.");
             Console.WriteLine("Before you go, would you like to take the garb?");
             Console.WriteLine("> (Y/N)");
+            Risk myVar = Risk.Low;
+            Console.WriteLine(myVar);
             string linenGarb = Console.ReadLine();
             if (linenGarb == "Y")
             {
@@ -206,6 +212,9 @@ namespace Text_Adventure
             Console.WriteLine("You have traveled for a few hours and haven't seen anything interesting or any sign of any 'sanctuary' until now, you find another meditating monk statue, radiating heat now with a few gold pieces in its hands.");
             Console.WriteLine("Would you like to take the Gold Pieces?");
             Console.WriteLine("> (Y/N)");
+            Risk myVar = Risk.High;
+            string linenGarb = Console.ReadLine();
+            Console.WriteLine(myVar);
             string GoldPieces = Console.ReadLine();
             if (GoldPieces == "Y")
             {
